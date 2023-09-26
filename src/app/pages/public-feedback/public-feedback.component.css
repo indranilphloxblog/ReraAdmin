@@ -1,0 +1,10 @@
+.rating-eng i.fa-star-o{
+  font-size: 30px;
+  color: darkgray;
+  padding-right: 4px;
+}
+.rating-eng i.fa-star{
+  font-size: 30px;
+  color: #ffcd06;
+  padding-right: 4px;
+}

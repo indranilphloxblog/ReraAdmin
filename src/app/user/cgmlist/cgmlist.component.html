@@ -1,0 +1,83 @@
+<div class="main-body">
+  <div class="promot_regs">
+    <div class="container">
+      <div class="prom_reg_in">
+        <h3>{{rolename}}</h3>
+        <div class="prom_reg_frm">
+          <div class="prog_pegin d-flex justify-content-end align-items-center mb-3">
+            <button class="btn btn-primary" (click)="previous()" [disabled]="currentpage==1">Previous</button>
+            <button class="btn btn-primary" (click)="next()" [disabled]="currentpage==totalpage">Next</button>
+            <strong><span>page {{currentpage}}</span>/{{totalpage}}</strong>
+          </div>
+          <div class="scru_level">
+            <div class="tabletab mar-top-15">
+              <div class="table-responsive height-500">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                       class="table  table-hover">
+                  <tr>
+                    <th align="left" valign="middle">Sr No.</th>
+                    <th align="left" valign="middle" >Bench Name</th>
+                    <th align="left" valign="middle" >Hearing Date</th>
+                    <th align="left" valign="middle">Case Number</th>
+                    <th align="left" valign="middle" >Ticket Id</th>
+                    <th align="left" valign="middle" >Claim No</th>
+                    <th align="left" valign="middle" >Escalated Group</th>
+                    <th align="left" valign="middle">Ticket Name</th>
+                    <th align="left" valign="middle" >Created By</th>
+                    <th align="left" valign="middle" >Created Since</th>
+                    <th align="left" valign="middle">Status</th>
+                    <th align="left" valign="middle" >Priority</th>
+                    <th align="left" valign="middle" >Short Desc</th>
+                    <th align="left" valign="middle" >Category Seq</th>
+                    <th align="left" valign="middle">Project Name</th>
+                    <th align="left" valign="middle" >Registration Status</th>
+                    <th align="left" valign="middle" >Type</th>
+                    <th align="left" valign="middle" >Complain Type</th>
+                  </tr>
+                  <tr *ngFor="let l of details ; let i = index;"
+                      [ngStyle]="{'color':l.fontColor}">
+                    <td align="left" valign="middle">{{i+1}}</td>
+                    <td align="left" valign="middle" >{{l.BenchName}}</td>
+                    <td align="left" valign="middle" >
+                      {{l.HearingDate}}</td>
+                    <td align="left" valign="middle">{{l.caseNumber}}</td>
+                    <td align="left" valign="middle" >
+                      {{l.ticket_id }}</td>
+                    <td align="left" valign="middle" >
+                      {{l.claimNo}}</td>
+                    <td align="left" valign="middle" >{{l.escalated_to_grp_nm}}</td>
+                    <td align="left" valign="middle">{{l.tName}}</td>
+                    <td align="left" valign="middle" >{{l.createdBy}}</td>
+                    <td align="left" valign="middle" >
+                      {{l.createdSince}}</td>
+                    <td align="left" valign="middle">{{l.status}}</td>
+                    <td align="left" valign="middle" >
+                      {{l.priority }}</td>
+                    <td align="left" valign="middle" >
+                      {{l.LEVELSHORTDESC}}</td>
+                    <td align="left" valign="middle" >{{l.catSeq}}</td>
+                    <td align="left" valign="middle">{{l.Project_Name}}</td>
+                    <td align="left" valign="middle" >
+                      {{l.Project_registration_Status }}</td>
+                    <td align="left" valign="middle" >
+                      {{l.Type}}</td>
+                    <td align="left" valign="middle" >{{l.SelectYourComplaintType}}</td>
+                  </tr>
+                  <tr *ngIf="details.length === 0">
+                    <td colspan="7" class="text-center">No data found.</td>
+                  </tr>
+                </table>
+<!--                <pagination-controls class="pagination" (pageChange)="p = $event"></pagination-controls>-->
+<!--                <ngb-pagination (pageChange)="onPageChange($event)" [pageSize]="limit" [collectionSize]="projectSize" class="d-flex justify-content-end" [(page)]="projectPage" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>-->
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<notifier-container></notifier-container>

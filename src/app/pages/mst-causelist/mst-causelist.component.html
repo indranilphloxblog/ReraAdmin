@@ -1,0 +1,147 @@
+<notifier-container></notifier-container>
+<div class="container-fluid pt-2">
+  <div class="page-header">
+    <h2>Cause List
+      <div class="top-actions" style="display: flex;float: right;">
+        <button class="float-end" mat-raised-button color="primary" (click)="openModal(0)">Add Field</button>
+      </div>
+    </h2>
+    <hr>
+  </div>
+  <div class="page-body">
+    <div style="display: block;">
+      <div class="card mt-3 p-3">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group" >
+              <input type="text" class="form-control" [(ngModel)]="searchText" (keyup.enter)="getData(1)" placeholder="Search Fields">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <select class="form-control" [(ngModel)]="searchType" (change)="getData(1)">
+              <option value="">Select notice type</option>
+              <option value="Cause List">Authority</option>
+              <option value="Cause List For Adjudicating Officer">Adjudicating Officer</option>
+              <option value="Cause List Conciliation Forum">Conciliation Forum</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-responsive" style="height: 70vh;overflow: auto;">
+          <table class="table table-sm table-bordered">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th style="min-width: 150px;">Date of Notice</th>
+              <th>Subject</th>
+              <th>Document</th>
+              <th>Notice Type</th>
+              <th>No OF ORDER</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let obj of listData; let i = index;">
+              <td>{{offset + i + 1}}</td>
+              <td>{{obj.Date_of_Notice}}</td>
+              <td>{{obj.Subject}}</td>
+              <td class="text-center"> <a (click)="openTab(obj.File_Path)">
+                <i style="font-size: 20px;color: #0e3871;" class="fa fa-eye" aria-hidden="true"></i>
+              </a></td>
+              <td style="text-transform: capitalize;">
+                <span *ngIf="obj.Notice_Type == 'Cause List'">Authority</span>
+                <span *ngIf="obj.Notice_Type == 'Cause List For Adjudicating Officer'">Adjudicating Officer</span>
+                <span *ngIf="obj.Notice_Type == 'Cause List Conciliation Forum'">Conciliation Forum</span>
+              </td>
+              <td>{{obj.No_OF_ORDER}}</td>
+
+              <td>
+                <button style="color: blue;" (click)="edit(obj, i)">
+
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </button>
+                <button class="m-lg-1" style="color: red;" (click)="openDeleteModal(deleteModal, obj.FID, i)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="listData.length === 0">
+              <td colspan="7" class="text-center">No data found.</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <button [disabled]="!isNextStep" mat-raised-button color="primary" style="float: right;" (click)="next()">Next</button>
+          <button [disabled]="!isPrevStep" mat-raised-button color="primary" style="float: right;margin-right: 10px;" (click)="previous()">Previous</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modal>
+  <div class=" modal-content ">
+    <div class="modal-header">
+      <h3 class="modal-title" id="exampleModalLabel">{{modalHeader}} Field</h3>
+      <button type="button" class="btn-close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <div class="mb-3" >
+        <label class="form-label">Subject:</label>
+        <input type="text" class="form-control" placeholder="Subject"  [(ngModel)]="subject" >
+      </div>
+      <div class="mb-3" >
+        <label class="form-label">Date of Notice:</label>
+        <input type="date" class="form-control" [(ngModel)]="dateofnotice">
+      </div>
+      <div class="mb-3" >
+        <label class="form-label">Upload Document:</label>
+        <input type="file" class="form-control"  accept="application/pdf" (change)="uploadFile($event)">
+        <div>
+          <a style="color: #0e3871;text-decoration: underline;" (click)="openTab(document)">{{document}}</a>
+        </div>
+      </div>
+      <div class="mb-3" >
+        <label class="form-label">Notice Type:</label>
+        <select class="form-control" [(ngModel)]="type">
+          <option value="">Select notice type</option>
+          <option value="Cause List">Authority</option>
+          <option value="Cause List For Adjudicating Officer">Adjudicating Officer</option>
+          <option value="Cause List Conciliation Forum">Conciliation Forum</option>
+        </select>
+      </div>
+      <div class="mb-3" >
+        <label class="form-label">Number of Order:</label>
+        <input type="number" class="form-control" [(ngModel)]="numberOfOrder">
+      </div>
+      <span class="err-msg">{{errMsg}}</span>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+      <button type="button" class="btn btn-primary" *ngIf="modalHeader == 'Add'" (click)="saveData()">Save</button>
+      <button type="button" class="btn btn-primary" *ngIf="modalHeader == 'Update'" (click)="updateData()">Update
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteModal>
+  <div class="modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header flex-column">
+        <div class="icon-box">
+          <i class="material-icons">&#xE5CD;</i>
+        </div>
+        <h4 class="modal-title w-100">Are you sure?</h4>
+
+      </div>
+      <div class="modal-body">
+        <p>Do you really want to delete these records? This process cannot be undone.</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="deleteData()">Delete</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

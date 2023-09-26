@@ -1,0 +1,64 @@
+<notifier-container></notifier-container>
+
+<div class="container-fluid pt-2">
+  <div class="page-header">
+    <h2>Public Feedback</h2>
+    <hr>
+  </div>
+  <div class="page-body">
+    <div style="display: block;">
+      <div class="card mt-3 p-3">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group" >
+              <input type="date" class="form-control" [(ngModel)]="startDate" placeholder="Case No">
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group" >
+              <input type="date" class="form-control" [(ngModel)]="endDate" placeholder="Case No">
+            </div>
+          </div>
+          <div class="col-2">
+            <button class="btn btn-primary" (click)="getData(1)">Filter</button>
+          </div>
+        </div>
+        <div class="table-responsive" style="height: 70vh;overflow: auto;">
+          <table class="table table-sm table-bordered">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th style="max-width: 100px;">Submitted Date</th>
+              <th>Description</th>
+              <th>Rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let obj of listData; let i = index;">
+              <td>{{offset + i + 1}}</td>
+              <td>{{obj.createdat}}</td>
+              <td>{{obj.description}}</td>
+              <td>
+                <div class="rating-eng">
+                  <i class="fa" [ngClass]="obj.rating >=1 ? 'fa-star' : 'fa-star-o'" aria-hidden="true"></i>
+                  <i class="fa" [ngClass]="obj.rating >=2 ? 'fa-star' : 'fa-star-o'" aria-hidden="true"></i>
+                  <i class="fa" [ngClass]="obj.rating >=3 ? 'fa-star' : 'fa-star-o'" aria-hidden="true"></i>
+                  <i class="fa" [ngClass]="obj.rating >=4 ? 'fa-star' : 'fa-star-o'" aria-hidden="true"></i>
+                  <i class="fa" [ngClass]="obj.rating >=5 ? 'fa-star' : 'fa-star-o'" aria-hidden="true"></i>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="listData.length === 0">
+              <td colspan="4" class="text-center">No data found.</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <button [disabled]="!isNextStep" mat-raised-button color="primary" style="float: right;" (click)="next()">Next</button>
+          <button [disabled]="!isPrevStep" mat-raised-button color="primary" style="float: right;margin-right: 10px;" (click)="previous()">Previous</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

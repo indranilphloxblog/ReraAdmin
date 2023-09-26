@@ -1,0 +1,12 @@
+.height-500{
+  height: 500px;
+}
+.prog_pegin button.btn {
+  padding: 5px 12px;
+  height: auto;
+  font-size: 14px;
+  margin: 0 10px 0 0;
+}
+.prog_pegin button.btn.btn-dark {background: #ccc !important; border: 1px solid #eee; color: #fff !important;}
+.prog_pegin button.btn.btn-dark:hover {background: #000 !important; border: 1px solid #000; color: #fff !important;}
+.prog_pegin strong span{font-weight: 400;}

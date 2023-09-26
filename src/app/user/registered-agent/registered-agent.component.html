@@ -1,0 +1,54 @@
+<div class="main-body">
+  <div class="promot_regs">
+    <div class="container">
+      <div class="prom_reg_in">
+        <h3>{{rolename}}</h3>
+        <nav aria-label="breadcrumb" class="col-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item pointer"><a (click)="goToHome()">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Registered Agent</li>
+          </ol>
+        </nav>
+        <div class="prom_reg_frm list-container">
+          <div class="row mb-2">
+            <div class="col-3">
+              <input class="form-control" type="text" placeholder="Enter Agent Name" [(ngModel)]="searchText">
+            </div>
+            <div class="col-3">
+              <button style="height: calc(1.5em + 0.75rem + 2px);" class="btn btn-info" (click)="getProjectList(1)">Filter</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table  table-hover">
+              <tr>
+                <th>Agent ID</th>
+                <th>Agent Name</th>
+                <th>Approval Date</th>
+                <th>Validity Start Date</th>
+                <th>Validity End Date</th>
+                <th>Certificate</th>
+              </tr>
+              <tr *ngFor="let obj of listData | paginate: { id: pageId, itemsPerPage: limit, currentPage: p, totalItems: totalCount }">
+                <td>{{obj.userno}}</td>
+                <td>{{obj.username}}</td>
+                <td>{{obj.approvaltime ? obj.approvaltime : 'NA'}}</td>
+                <td>{{obj.validitystartdate}}</td>
+                <td>{{obj.validityenddate}}</td>
+                <td class="text-center">
+                  <a [href]="certificateRoot + obj.certificate" target="_blank">
+                    <i class="fa fa-certificate" aria-hidden="true" style="color: blue;font-size: 35px;"></i>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <pagination-controls class="pagination" [id]="pageId" (pageChange)="pageChange($event)"></pagination-controls>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<notifier-container></notifier-container>

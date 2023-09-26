@@ -1,0 +1,28 @@
+<div class="main-body">
+    <div class="promot_regs">
+        <div class="container">
+            <div class="prom_reg_in">
+                <h3>{{rolename}}</h3>
+                <div class="prom_reg_frm">
+                    <div class="scru_level">
+                        <mat-tab-group dynamicHeight>
+                            <mat-tab label="Submitted QPR">
+                                <div class="resp-tabs-container hor_1 mb-3">
+                                    <app-submitted-qpr-list [issubmited]="1" [pageId]="'server1'"></app-submitted-qpr-list>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Pending QPR">
+                              <div class="resp-tabs-container hor_1 mb-3">
+                                <app-submitted-qpr-list [issubmited]="0" [pageId]="'server2'"></app-submitted-qpr-list>
+                              </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<notifier-container></notifier-container>
