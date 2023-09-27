@@ -215,6 +215,10 @@ export class PagesComponent implements OnInit {
     label: 'Marquee Controller',
     link: '/mst/marquee',
     faIcon: 'fa fa-bell'
+  },{
+    label: 'User Management',
+    link: '/mst/add-user',
+    faIcon: 'fa fa-bell'
   }];
   userName: any = '';
 

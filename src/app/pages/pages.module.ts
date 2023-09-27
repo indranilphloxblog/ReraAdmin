@@ -55,6 +55,7 @@ import { AgentApprovalComponent } from './agent-approval/agent-approval.componen
 import { HolidaysComponent } from './holidays/holidays.component';
 import { LeavesComponent } from './leaves/leaves.component';
 import { MarqueeControllerComponent } from './marquee-controller/marquee-controller.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 const notifierDefaultOptions: NotifierOptions = {
   position: {
@@ -136,7 +137,8 @@ const notifierDefaultOptions: NotifierOptions = {
     AgentApprovalComponent,
     HolidaysComponent,
     LeavesComponent,
-    MarqueeControllerComponent
+    MarqueeControllerComponent,
+    AddUserComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,227 @@
+<notifier-container></notifier-container>
+<div class="container-fluid pt-2">
+    <div class="page-header">
+        <h2>User Management
+            <div class="top-actions" style="display: flex; float: right;">
+                <button class="float-end" mat-raised-button color="primary" (click)="openModal(0, 'none')">Add New User
+                    </button>
+            </div>
+        </h2>
+        <hr>
+    </div>
+    <div class="page-body">
+        <div style="display: block;">
+            <div class="card mt-3 p-3">
+                <div class="table-responsive" style="height: 70vh;overflow: auto;">
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Father's Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>Date of Joining</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listData; let i = index;">
+                                <td>{{i + 1}}</td>
+                                <td>{{item.userid}}</td>
+                                <td>{{item.username}}</td>
+                                <td>{{item.father_name}}</td>
+                                <td>{{item.useremail}}</td>
+                                <td>{{item.usermobile}}</td>
+                                <td>{{item.roledesc}}</td>
+                                <td>{{item.designation}}</td>
+                                <td>{{item.date_of_join}}</td>
+                                <td>{{item.address}}</td>
+                                <td *ngIf="item.isactive == 1" class="text-success text-center" title="Active"><i (click)="openDeleteModal(deleteModal, item, '0')" class="fa fa-toggle-on fa-lg"></i></td>
+                                <td *ngIf="item.isactive == 0" class="text-danger text-center" title="In-active"><i (click)="openDeleteModal(deleteModal, item, '1')" class="fa fa-toggle-off fa-lg"></i></td>
+                                <td>
+                                    <button class="mx-1" (click)="openModal(1, item)"><i
+                                            class="fa fa-pencil-square-o fa-lg text-primary"></i></button>
+                                    <!-- <button class="mx-1" (click)="openDeleteModal(deleteModal, item.id, i)"><i
+                                            class="fa fa-trash fa-lg text-danger"></i></button> -->
+                                </td>
+                            </tr>
+                            <tr *ngIf="listData.length === 0">
+                                <td colspan="13" class="text-center">No data found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalLabel">{{modalHeader}} User</h3>
+        </div>
+        <div class="modal-body" *ngIf="modalHeader == 'Add'">
+            <div class="row">
+                <div class="col-4">
+                    <label for="username" class="form-label">User Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Ex.: James Bond" [(ngModel)]="username">
+                </div>
+                <div class="col-4">
+                    <label for="father_name" class="form-label">User's father Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="father_name" id="father_name" placeholder="Ex.: James Bond" [(ngModel)]="father_name">
+                </div>
+                <div class="col-4 mb-3">
+                    <label for="useremail" class="form-label">Email<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="useremail" id="useremail" placeholder="Ex.: james@gmail.com" [(ngModel)]="useremail">
+                </div>
+                <div class="col-4">
+                    <label for="usermobile" class="form-label">Phone<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="usermobile" id="usermobile" placeholder="Ex.: 0000000000" [(ngModel)]="usermobile">
+                </div>
+                <div class="col-4">
+                    <label for="department" class="form-label">Department<span class="text-danger">*</span></label>
+                    <select name="department" id="department" class="form-control" [(ngModel)]="department">
+                        <option value="0">Select Department</option>
+                        <option *ngFor="let item of deptList" value="{{item.roleid}}">{{item.roledesc}}</option>
+                    </select>
+                </div>
+                <div class="col-4 mb-3">
+                    <label for="designation" class="form-label">Designation<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="designation" id="designation" placeholder="Ex.: Designation" [(ngModel)]="designation">
+                </div>
+                <div class="col-4">
+                    <label for="date_of_join" class="form-label">Date of Join<span class="text-danger">*</span></label>
+                    <input type="date" class="form-control mb-3" name="date_of_join" id="date_of_join" placeholder="Ex.: James Bond" [(ngModel)]="date_of_join">
+
+                    <label for="dsc_authorised" class="form-label">Authorised to DSC ?<span class="text-danger">*</span></label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="dsc_authorised" id="dsc_authorised" [checked]="dsc_authorised == '1'" (change) = "selectdscauth('1')">
+                        <label class="form-check-label" for="dsc_authorised">
+                          Yes
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="form-check-input" type="radio" name="dsc_authorised" id="dsc_authorised" [checked]="dsc_authorised == '0'" (change) = "selectdscauth('0')">
+                        <label class="form-check-label" for="dsc_authorised">
+                          No
+                        </label>
+                    </div>
+                </div>
+                <div class="col-8 mb-3">
+                    <label for="address" class="form-label">Address<span class="text-danger">*</span></label>
+                    <textarea class="form-control" name="address" id="address" rows="4" placeholder="Ex.: First floor, 30 Wellington Square, Chelsea" [(ngModel)]="address"></textarea>
+                </div>
+            </div>
+            <h3>Supporting Document</h3> <hr>
+            <div class="row">
+                <div class="col-4">
+                    <label for="supporting_doc" class="form-label">Document</label>
+                    <input type="file" class="form-control" name="supporting_doc" id="supporting_doc" (change)="uploadFile($event, 'docpath')">
+                </div>
+                <div class="col-8">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" name="description" id="description" placeholder="Ex.: A breif description.." [(ngModel)]="description">
+                </div>
+            </div>
+        </div>
+        <div class="modal-body" *ngIf="modalHeader == 'Update'">
+            <div class="row">
+                <div class="col-4">
+                    <label for="username" class="form-label">User Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Ex.: James Bond" [(ngModel)]="username">
+                </div>
+                <div class="col-4">
+                    <label for="father_name" class="form-label">User's father Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="father_name" id="father_name" placeholder="Ex.: James Bond" [(ngModel)]="father_name">
+                </div>
+                <div class="col-4 mb-3">
+                    <label for="useremail" class="form-label">Email<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="useremail" id="useremail" placeholder="Ex.: james@gmail.com" [(ngModel)]="useremail">
+                </div>
+                <div class="col-4">
+                    <label for="usermobile" class="form-label">Phone<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="usermobile" id="usermobile" placeholder="Ex.: 0000000000" [(ngModel)]="usermobile">
+                </div>
+                <div class="col-4">
+                    <label for="department" class="form-label">Department<span class="text-danger">*</span></label>
+                    <select name="department" id="department" class="form-control" [(ngModel)]="department">
+                        <option value="0">Select Department</option>
+                        <option *ngFor="let item of deptList" value="{{item.roleid}}">{{item.roledesc}}</option>
+                    </select>
+                </div>
+                <div class="col-4 mb-3">
+                    <label for="designation" class="form-label">Designation<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="designation" id="designation" placeholder="Ex.: Designation" [(ngModel)]="designation">
+                </div>
+                <div class="col-4">
+                    <label for="date_of_join" class="form-label">Date of Join<span class="text-danger">*</span></label>
+                    <input type="date" class="form-control mb-3" name="date_of_join" id="date_of_join" placeholder="Ex.: James Bond" [(ngModel)]="date_of_join">
+
+                    <label for="dsc_authorised" class="form-label">Authorised to DSC ?<span class="text-danger">*</span></label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="dsc_authorised" id="dsc_authorised" value="1"  [checked]="dsc_authorised == '1'" (change) = "selectdscauth('1')">
+                        <label class="form-check-label" for="dsc_authorised">
+                          Yes
+                        </label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input class="form-check-input" type="radio" name="dsc_authorised" id="dsc_authorised" value="0"  [checked]="dsc_authorised == '0'" (change) = "selectdscauth('0')">
+                        <label class="form-check-label" for="dsc_authorised">
+                          No
+                        </label>
+                    </div>
+                </div>
+                <div class="col-8 mb-3">
+                    <label for="address" class="form-label">Address<span class="text-danger">*</span></label>
+                    <textarea class="form-control" name="address" id="address" rows="4" placeholder="Ex.: First floor, 30 Wellington Square, Chelsea" [(ngModel)]="address"></textarea>
+                </div>
+            </div>
+            <h3>Supporting Document</h3> <hr>
+            <div class="row">
+                <div class="col-4">
+                    <label for="supporting_doc" class="form-label">Document</label>
+                    <input type="file" class="form-control" name="supporting_doc" id="supporting_doc" (change)="uploadFile($event, 'docpath')">
+                </div>
+                <div class="col-8">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" name="description" id="description" placeholder="Ex.: A breif description.." [(ngModel)]="description">
+                </div>
+            </div>
+        </div>
+        <div *ngIf="err > 0" class="alert alert-danger">{{errMsg}}</div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+            <button type="button" class="btn btn-primary" *ngIf="modalHeader == 'Add'"
+                (click)="saveData()">Add</button>
+            <button type="button" class="btn btn-primary" *ngIf="modalHeader == 'Update'" (click)="updateData()">Update
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #deleteModal>
+    <div class="modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="material-icons">?</i>
+                </div>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to change the status of <strong>{{username}}</strong>?</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="deleteData()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

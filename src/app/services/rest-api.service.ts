@@ -277,7 +277,7 @@ export class RestApiService {
 
   certificateUpload(data:any) {
     return this.http.post(this.API_ROOT + 'v1/project/certificateUpload', data);
-  }
+  } 
 
   holidayslist(data: any): any {
     return this.http.post(this.API_ROOT + 'v1/mst_holidays/list', data);
@@ -328,5 +328,25 @@ export class RestApiService {
 
   marqueeupdate(data: any) {
     return this.http.post(this.API_ROOT + 'v1/marquee/update', data);
+  }
+
+  fetchuserbyadmin(data: any) {
+    return this.http.post(this.API_ROOT + 'v1/user/fetchbyadmin', data);
+  }
+
+  fetchDepartment(data: any) {
+    return this.http.post(this.API_ROOT + 'v1/user/fetchdept', data);
+  }
+
+  adduserbyadmin(data: any) {
+    return this.http.post(this.API_ROOT + 'v1/user/addbyadmin', data);
+  }
+
+  updatebyadmin(data: any) {
+    return this.http.post(this.API_ROOT + 'v1/user/updatebyadmin', data);
+  }
+
+  updateuserstatusbyadmin(data: any) {
+    return this.http.post(this.API_ROOT + 'v1/user/active-inactive', data);
   }
 }
